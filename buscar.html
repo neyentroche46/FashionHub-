@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Productos - FashionHub</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header id="mainHeader">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <img src="imagenes/Logo mejor.png" alt="FashionHub Logo" class="logo-img" width="40" height="40">
+                    <div class="logo-text">FashionHub</div>
+                </a>
+                
+                <nav>
+                    <ul class="nav-links">
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="listado_tabla.html">Productos (Tabla)</a></li>
+                        <li><a href="listado_box.html">Productos (Box)</a></li>
+                        <li><a href="comprar.html">Comprar</a></li>
+                    </ul>
+                    
+                    <div class="nav-icons">
+                        <a href="buscar.html" aria-label="Buscar productos" title="Buscar productos"><i class="fas fa-search"></i></a>
+                        <a href="carrito.html" aria-label="Ver carrito de compras" title="Carrito de compras"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
+                        <a href="cuenta.html" aria-label="Iniciar sesión o ver cuenta" title="Mi cuenta"><i class="fas fa-user"></i></a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav aria-label="Migas de pan" class="breadcrumb">
+            <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
+            <i class="fas fa-chevron-right"></i>
+            <span>Buscar Productos</span>
+        </nav>
+
+        <div class="search-header">
+            <h1 class="page-title">Buscar Productos</h1>
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="¿Qué estás buscando?" aria-label="Buscar productos">
+                <button type="button" class="search-btn" aria-label="Buscar">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="search-results">
+            <div class="results-info">
+                <p>Se encontraron <strong>12 productos</strong> para "camiseta"</p>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card" data-id="prod-1">
+                    <div class="product-image">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Camisetas</span>
+                        <a href="producto.html" class="product-name">Camiseta Básica Algodón</a>
+                        <div class="product-price">
+                            <span class="current-price">$29.900</span>
+                            <span class="original-price">$39.900</span>
+                        </div>
+                        <div class="product-actions">
+                            <a href="producto.html" class="btn btn-outline">Ver Detalles</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-id="prod-12">
+                    <div class="product-image">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Camisetas</span>
+                        <a href="producto.html" class="product-name">Camiseta Manga Larga</a>
+                        <div class="product-price">
+                            <span class="current-price">$39.900</span>
+                        </div>
+                        <div class="product-actions">
+                            <a href="producto.html" class="btn btn-outline">Ver Detalles</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-id="prod-13">
+                    <div class="product-image">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Camisetas</span>
+                        <a href="producto.html" class="product-name">Polo Clásico</a>
+                        <div class="product-price">
+                            <span class="current-price">$45.900</span>
+                        </div>
+                        <div class="product-actions">
+                            <a href="producto.html" class="btn btn-outline">Ver Detalles</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-id="prod-14">
+                    <div class="product-image">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Camisetas</span>
+                        <a href="producto.html" class="product-name">Camiseta Estampada</a>
+                        <div class="product-price">
+                            <span class="current-price">$34.900</span>
+                        </div>
+                        <div class="product-actions">
+                            <a href="producto.html" class="btn btn-outline">Ver Detalles</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-id="prod-15">
+                    <div class="product-image">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Camisetas</span>
+                        <a href="producto.html" class="product-name">Camiseta Deportiva</a>
+                        <div class="product-price">
+                            <span class="current-price">$42.900</span>
+                        </div>
+                        <div class="product-actions">
+                            <a href="producto.html" class="btn btn-outline">Ver Detalles</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-id="prod-16">
+                    <div class="product-image">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Camisetas</span>
+                        <a href="producto.html" class="product-name">Camiseta Básica Blanca</a>
+                        <div class="product-price">
+                            <span class="current-price">$27.900</span>
+                        </div>
+                        <div class="product-actions">
+                            <a href="producto.html" class="btn btn-outline">Ver Detalles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="no-results">
+                <div class="no-results-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>No se encontraron resultados</h3>
+                <p>Intenta con otros términos de búsqueda o explora nuestras categorías.</p>
+                <a href="listado_box.html" class="btn btn-primary">Ver Todos los Productos</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Acerca de FashionHub</h3>
+                    <p>Tu destino para comprar ropa de calidad con las últimas tendencias de moda y los mejores precios.</p>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Síguenos en Facebook" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Síguenos en Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Síguenos en Twitter" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Síguenos en Pinterest" title="Pinterest"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="listado_tabla.html">Productos (Tabla)</a></li>
+                        <li><a href="listado_box.html">Productos (Box)</a></li>
+                        <li><a href="comprar.html">Realizar Compra</a></li>
+                        <li><a href="producto.html">Detalle de Producto</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <p><i class="fas fa-envelope"></i> info@fashionhub.com</p>
+                    <p><i class="fas fa-phone"></i> (601) 345 6789</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Cra 45 #100-25, Bogotá</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 FashionHub. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
