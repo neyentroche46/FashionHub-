@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Cuenta - FashionHub</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header id="mainHeader">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <img src="imagenes/Logo mejor.png" alt="FashionHub Logo" class="logo-img" width="40" height="40">
+                    <div class="logo-text">FashionHub</div>
+                </a>
+                
+                <nav>
+                    <ul class="nav-links">
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="listado_tabla.html">Productos (Tabla)</a></li>
+                        <li><a href="listado_box.html">Productos (Box)</a></li>
+                        <li><a href="comprar.html">Comprar</a></li>
+                    </ul>
+                    
+                    <div class="nav-icons">
+                        <a href="buscar.html" aria-label="Buscar productos" title="Buscar productos"><i class="fas fa-search"></i></a>
+                        <a href="carrito.html" aria-label="Ver carrito de compras" title="Carrito de compras"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
+                        <a href="cuenta.html" aria-label="Iniciar sesión o ver cuenta" title="Mi cuenta"><i class="fas fa-user"></i></a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav aria-label="Migas de pan" class="breadcrumb">
+            <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
+            <i class="fas fa-chevron-right"></i>
+            <span>Mi Cuenta</span>
+        </nav>
+
+        <div class="account-container">
+            <div class="account-sidebar">
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="user-info">
+                        <h3 class="user-name">María González</h3>
+                        <p class="user-email">maria.gonzalez@email.com</p>
+                    </div>
+                </div>
+
+                <nav class="account-menu">
+                    <a href="#perfil" class="menu-item active" data-tab="perfil">
+                        <i class="fas fa-user"></i>
+                        <span>Mi Perfil</span>
+                    </a>
+                    <a href="#pedidos" class="menu-item" data-tab="pedidos">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span>Mis Pedidos</span>
+                    </a>
+                    <a href="#direcciones" class="menu-item" data-tab="direcciones">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Direcciones</span>
+                    </a>
+                    <a href="#favoritos" class="menu-item" data-tab="favoritos">
+                        <i class="fas fa-heart"></i>
+                        <span>Favoritos</span>
+                    </a>
+                    <a href="#configuracion" class="menu-item" data-tab="configuracion">
+                        <i class="fas fa-cog"></i>
+                        <span>Configuración</span>
+                    </a>
+                    <a href="#cerrar-sesion" class="menu-item logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Cerrar Sesión</span>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="account-content">
+                <!-- Pestaña Perfil -->
+                <div class="tab-content active" id="perfil">
+                    <div class="tab-header">
+                        <h2>Mi Perfil</h2>
+                        <p>Gestiona tu información personal y preferencias</p>
+                    </div>
+
+                    <form class="profile-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nombre" class="required">Nombres</label>
+                                <input type="text" id="nombre" class="form-input" value="María" required title="Ingresa tus nombres">
+                            </div>
+                            <div class="form-group">
+                                <label for="apellido" class="required">Apellidos</label>
+                                <input type="text" id="apellido" class="form-input" value="González" required title="Ingresa tus apellidos">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="required">Correo Electrónico</label>
+                            <input type="email" id="email" class="form-input" value="maria.gonzalez@email.com" required title="Ingresa tu correo electrónico">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telefono">Teléfono</label>
+                            <input type="tel" id="telefono" class="form-input" value="+57 300 123 4567" title="Ingresa tu número de teléfono">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fecha-nacimiento">Fecha de Nacimiento</label>
+                            <input type="date" id="fecha-nacimiento" class="form-input" value="1990-05-15" title="Selecciona tu fecha de nacimiento">
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                            <button type="button" class="btn btn-outline">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Pestaña Pedidos -->
+                <div class="tab-content" id="pedidos">
+                    <div class="tab-header">
+                        <h2>Mis Pedidos</h2>
+                        <p>Revisa el historial y estado de tus pedidos</p>
+                    </div>
+
+                    <div class="orders-list">
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <span class="order-number">Pedido #FH-001234</span>
+                                    <span class="order-date">15 Nov, 2023</span>
+                                </div>
+                                <div class="order-status status-delivered">Entregado</div>
+                            </div>
+                            <div class="order-items">
+                                <div class="order-item">
+                                    <div class="item-image">
+                                        <i class="fas fa-tshirt"></i>
+                                    </div>
+                                    <div class="item-details">
+                                        <span class="item-name">Camiseta Básica Algodón</span>
+                                        <span class="item-quantity">Cantidad: 1</span>
+                                    </div>
+                                    <div class="item-price">$29.900</div>
+                                </div>
+                                <div class="order-item">
+                                    <div class="item-image">
+                                        <i class="fas fa-vest"></i>
+                                    </div>
+                                    <div class="item-details">
+                                        <span class="item-name">Chaqueta de Cuero Sintético</span>
+                                        <span class="item-quantity">Cantidad: 1</span>
+                                    </div>
+                                    <div class="item-price">$159.900</div>
+                                </div>
+                            </div>
+                            <div class="order-total">
+                                <span>Total: $189.800</span>
+                                <a href="#" class="btn btn-outline btn-sm">Ver Detalles</a>
+                            </div>
+                        </div>
+
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <span class="order-number">Pedido #FH-001233</span>
+                                    <span class="order-date">10 Nov, 2023</span>
+                                </div>
+                                <div class="order-status status-shipping">En camino</div>
+                            </div>
+                            <div class="order-items">
+                                <div class="order-item">
+                                    <div class="item-image">
+                                        <i class="fas fa-shoe-prints"></i>
+                                    </div>
+                                    <div class="item-details">
+                                        <span class="item-name">Zapatos Casuales</span>
+                                        <span class="item-quantity">Cantidad: 1</span>
+                                    </div>
+                                    <div class="item-price">$89.900</div>
+                                </div>
+                            </div>
+                            <div class="order-total">
+                                <span>Total: $98.800</span>
+                                <a href="#" class="btn btn-outline btn-sm">Seguir Pedido</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pestaña Direcciones -->
+                <div class="tab-content" id="direcciones">
+                    <div class="tab-header">
+                        <h2>Mis Direcciones</h2>
+                        <p>Gestiona tus direcciones de envío</p>
+                    </div>
+
+                    <div class="addresses-list">
+                        <div class="address-card default">
+                            <div class="address-header">
+                                <h4>Dirección Principal</h4>
+                                <span class="default-badge">Principal</span>
+                            </div>
+                            <div class="address-details">
+                                <p>Calle 123 #45-67, Apartamento 201</p>
+                                <p>Bogotá, Cundinamarca</p>
+                                <p>111011</p>
+                                <p>Colombia</p>
+                            </div>
+                            <div class="address-actions">
+                                <button type="button" class="btn btn-outline btn-sm" title="Editar dirección">Editar</button>
+                                <button type="button" class="btn btn-outline btn-sm" title="Eliminar dirección">Eliminar</button>
+                            </div>
+                        </div>
+
+                        <div class="address-card">
+                            <div class="address-header">
+                                <h4>Dirección de Trabajo</h4>
+                            </div>
+                            <div class="address-details">
+                                <p>Carrera 7 #72-35, Oficina 502</p>
+                                <p>Bogotá, Cundinamarca</p>
+                                <p>110231</p>
+                                <p>Colombia</p>
+                            </div>
+                            <div class="address-actions">
+                                <button type="button" class="btn btn-outline btn-sm" title="Establecer como dirección principal">Establecer como Principal</button>
+                                <button type="button" class="btn btn-outline btn-sm" title="Editar dirección">Editar</button>
+                                <button type="button" class="btn btn-outline btn-sm" title="Eliminar dirección">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-primary add-address-btn" title="Agregar nueva dirección">
+                        <i class="fas fa-plus"></i> Agregar Nueva Dirección
+                    </button>
+                </div>
+
+                <!-- Pestaña Favoritos -->
+                <div class="tab-content" id="favoritos">
+                    <div class="tab-header">
+                        <h2>Mis Favoritos</h2>
+                        <p>Productos que has guardado para después</p>
+                    </div>
+
+                    <div class="favorites-grid">
+                        <div class="product-card favorite">
+                            <button type="button" class="favorite-btn active" aria-label="Quitar de favoritos" title="Quitar de favoritos">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <div class="product-image">
+                                <i class="fas fa-tshirt"></i>
+                            </div>
+                            <div class="product-info">
+                                <span class="product-category">Camisetas</span>
+                                <a href="producto.html" class="product-name">Camiseta Básica Algodón</a>
+                                <div class="product-price">
+                                    <span class="current-price">$29.900</span>
+                                    <span class="original-price">$39.900</span>
+                                </div>
+                                <div class="product-actions">
+                                    <button type="button" class="btn btn-primary" title="Añadir al carrito">Añadir al Carrito</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card favorite">
+                            <button type="button" class="favorite-btn active" aria-label="Quitar de favoritos" title="Quitar de favoritos">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <div class="product-image">
+                                <i class="fas fa-vest"></i>
+                            </div>
+                            <div class="product-info">
+                                <span class="product-category">Chaquetas</span>
+                                <a href="producto.html" class="product-name">Chaqueta de Cuero Sintético</a>
+                                <div class="product-price">
+                                    <span class="current-price">$159.900</span>
+                                    <span class="original-price">$199.900</span>
+                                </div>
+                                <div class="product-actions">
+                                    <button type="button" class="btn btn-primary" title="Añadir al carrito">Añadir al Carrito</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card favorite">
+                            <button type="button" class="favorite-btn active" aria-label="Quitar de favoritos" title="Quitar de favoritos">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <div class="product-image">
+                                <i class="fas fa-shoe-prints"></i>
+                            </div>
+                            <div class="product-info">
+                                <span class="product-category">Calzado</span>
+                                <a href="producto.html" class="product-name">Zapatos Casuales</a>
+                                <div class="product-price">
+                                    <span class="current-price">$89.900</span>
+                                </div>
+                                <div class="product-actions">
+                                    <button type="button" class="btn btn-primary" title="Añadir al carrito">Añadir al Carrito</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pestaña Configuración -->
+                <div class="tab-content" id="configuracion">
+                    <div class="tab-header">
+                        <h2>Configuración</h2>
+                        <p>Personaliza tu experiencia en FashionHub</p>
+                    </div>
+
+                    <div class="settings-list">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Notificaciones por Email</h4>
+                                <p>Recibe ofertas exclusivas y actualizaciones de tus pedidos</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked title="Activar/desactivar notificaciones por email">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Notificaciones Push</h4>
+                                <p>Recibe notificaciones en tu dispositivo</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" title="Activar/desactivar notificaciones push">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Boletín de Novedades</h4>
+                                <p>Recibe las últimas tendencias y lanzamientos</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked title="Activar/desactivar boletín de novedades">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="danger-zone">
+                        <h4>Zona de Peligro</h4>
+                        <p>Estas acciones no se pueden deshacer</p>
+                        <button type="button" class="btn btn-danger" title="Eliminar cuenta permanentemente">
+                            <i class="fas fa-trash"></i> Eliminar Cuenta
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Acerca de FashionHub</h3>
+                    <p>Tu destino para comprar ropa de calidad con las últimas tendencias de moda y los mejores precios.</p>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Síguenos en Facebook" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Síguenos en Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Síguenos en Twitter" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Síguenos en Pinterest" title="Pinterest"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="listado_tabla.html">Productos (Tabla)</a></li>
+                        <li><a href="listado_box.html">Productos (Box)</a></li>
+                        <li><a href="comprar.html">Realizar Compra</a></li>
+                        <li><a href="producto.html">Detalle de Producto</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <p><i class="fas fa-envelope"></i> info@fashionhub.com</p>
+                    <p><i class="fas fa-phone"></i> (601) 345 6789</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Cra 45 #100-25, Bogotá</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 FashionHub. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
