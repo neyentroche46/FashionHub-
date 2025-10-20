@@ -1,4 +1,4 @@
-// script.js - JAVASCRIPT COMPLETO PARA TODOS LOS BOTONES DE FASHIONHUB
+// scripts.js - JAVASCRIPT COMPLETO PARA TODOS LOS BOTONES DE FASHIONHUB
 
 class FashionHub {
     constructor() {
@@ -24,6 +24,7 @@ class FashionHub {
         this.initExportFunctions();
         this.initModalSystem();
         this.initResponsiveMenu();
+        this.initSocialMedia();
     }
 
     // NAVEGACIÓN Y ENLACES
@@ -89,15 +90,8 @@ class FashionHub {
 
     initResponsiveMenu() {
         // Crear botón de menú móvil si no existe
-        if (window.innerWidth <= 768 && !document.querySelector('.mobile-menu-btn')) {
-            const nav = document.querySelector('nav');
-            const mobileBtn = document.createElement('button');
-            mobileBtn.className = 'mobile-menu-btn';
-            mobileBtn.innerHTML = '<i class="fas fa-bars"></i>';
-            mobileBtn.setAttribute('aria-label', 'Abrir menú de navegación');
-            
-            nav.insertBefore(mobileBtn, nav.firstChild);
-            
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        if (mobileBtn) {
             mobileBtn.addEventListener('click', () => {
                 const navLinks = document.querySelector('.nav-links');
                 navLinks.classList.toggle('mobile-open');
@@ -304,6 +298,26 @@ class FashionHub {
         }
     }
 
+    toggleWishlist(button, productId) {
+        const icon = button.querySelector('i');
+        
+        if (this.wishlistItems.includes(productId)) {
+            // Remover de favoritos
+            this.wishlistItems = this.wishlistItems.filter(id => id !== productId);
+            button.classList.remove('active');
+            if (icon) icon.className = 'far fa-heart';
+            this.showNotification('Producto removido de favoritos', 'info');
+        } else {
+            // Añadir a favoritos
+            this.wishlistItems.push(productId);
+            button.classList.add('active');
+            if (icon) icon.className = 'fas fa-heart';
+            this.showNotification('Producto añadido a favoritos', 'success');
+        }
+        
+        this.saveWishlist();
+    }
+
     showWishlistModal() {
         if (this.wishlistItems.length === 0) {
             this.showNotification('No tienes productos en favoritos', 'info');
@@ -330,7 +344,7 @@ class FashionHub {
 
         modal.querySelector('.close-modal').addEventListener('click', () => this.closeModal(modal));
         modal.querySelector('#viewWishlist').addEventListener('click', () => {
-            this.showNotification('Página de favoritos en desarrollo', 'info');
+            window.location.href = 'cuenta.html#favoritos';
             this.closeModal(modal);
         });
 
@@ -346,6 +360,14 @@ class FashionHub {
             searchIcon.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.showSearchModal();
+            });
+        }
+
+        // Búsqueda en página de búsqueda
+        const searchBtn = document.querySelector('.search-btn');
+        if (searchBtn) {
+            searchBtn.addEventListener('click', () => {
+                this.performSearch();
             });
         }
     }
@@ -416,11 +438,25 @@ class FashionHub {
         });
     }
 
-    performSearch(query) {
+    performSearch(query = null) {
+        if (!query) {
+            const searchInput = document.querySelector('.search-input');
+            query = searchInput ? searchInput.value.trim() : '';
+        }
+        
+        if (!query) {
+            this.showNotification('Por favor, ingresa un término de búsqueda', 'warning');
+            return;
+        }
+        
         this.showNotification(`Buscando: "${query}"`, 'info');
         // Simular búsqueda
         setTimeout(() => {
             this.showNotification(`Se encontraron productos para "${query}"`, 'success');
+            // Redirigir a página de resultados si estamos en otra página
+            if (!window.location.href.includes('buscar.html')) {
+                window.location.href = `buscar.html?q=${encodeURIComponent(query)}`;
+            }
         }, 1500);
     }
 
@@ -437,6 +473,34 @@ class FashionHub {
                 }
             });
         }
+
+        // Tabs de cuenta
+        this.initAccountTabs();
+    }
+
+    initAccountTabs() {
+        const tabItems = document.querySelectorAll('.account-menu .menu-item');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabItems.forEach(item => {
+            if (!item.classList.contains('logout')) {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const tabId = item.getAttribute('href').substring(1);
+                    
+                    // Remover clase active de todos los tabs
+                    tabItems.forEach(tab => tab.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Añadir clase active al tab seleccionado
+                    item.classList.add('active');
+                    const targetTab = document.getElementById(tabId);
+                    if (targetTab) {
+                        targetTab.classList.add('active');
+                    }
+                });
+            }
+        });
     }
 
     showLoginModal() {
@@ -615,6 +679,26 @@ class FashionHub {
         });
     }
 
+    applyFilters() {
+        this.showNotification('Filtros aplicados', 'info');
+    }
+
+    clearFilters() {
+        const filterSelects = document.querySelectorAll('select');
+        filterSelects.forEach(select => {
+            select.value = '';
+        });
+        this.showNotification('Filtros limpiados', 'info');
+    }
+
+    removeFilterTag(tag) {
+        const filterTag = tag.closest('.filter-tag');
+        if (filterTag) {
+            filterTag.remove();
+            this.showNotification('Filtro removido', 'info');
+        }
+    }
+
     // INTERACCIONES DE PRODUCTOS MEJORADAS
     initProductInteractions() {
         // Vista rápida
@@ -661,6 +745,118 @@ class FashionHub {
                     window.location.href = 'producto.html';
                 });
             }
+        });
+    }
+
+    showQuickView(button) {
+        const productCard = button.closest('.product-card');
+        if (!productCard) return;
+
+        const productName = productCard.querySelector('.product-title, .product-name')?.textContent || 'Producto';
+        const productPrice = productCard.querySelector('.current-price')?.textContent || '';
+        const productImage = productCard.querySelector('.product-img, .product-image')?.innerHTML || '<i class="fas fa-tshirt"></i>';
+
+        const modal = document.createElement('div');
+        modal.className = 'modal active';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Vista Rápida</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="product-gallery">
+                        <div class="product-main-image">
+                            ${productImage}
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>${productName}</h3>
+                        <div class="product-price">${productPrice}</div>
+                        <p>Vista previa rápida del producto. Haz clic en "Ver Detalles" para más información.</p>
+                        <div class="product-actions">
+                            <a href="producto.html" class="btn btn-primary">Ver Detalles</a>
+                            <button class="btn btn-secondary add-to-cart-btn">Añadir al Carrito</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+        document.body.style.overflow = 'hidden';
+
+        modal.querySelector('.close-modal').addEventListener('click', () => this.closeModal(modal));
+        modal.querySelector('.add-to-cart-btn').addEventListener('click', () => {
+            this.addToCart(button);
+            this.closeModal(modal);
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) this.closeModal(modal);
+        });
+    }
+
+    selectVariant(option) {
+        const variantGroup = option.closest('.variant-selector');
+        const selectedSpan = variantGroup.querySelector('#selected-color, #selected-size');
+        
+        // Remover clase selected de todas las opciones
+        const options = variantGroup.querySelectorAll('.variant-option');
+        options.forEach(opt => opt.classList.remove('selected'));
+        
+        // Añadir clase selected a la opción clickeada
+        option.classList.add('selected');
+        
+        // Actualizar texto del selector
+        if (selectedSpan) {
+            selectedSpan.textContent = option.textContent;
+        }
+        
+        this.showNotification(`Variante seleccionada: ${option.textContent}`, 'info');
+    }
+
+    switchTab(tabId, btn) {
+        // Remover clase active de todos los botones y contenidos
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabBtns.forEach(tab => tab.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+        
+        // Añadir clase active al botón y contenido seleccionado
+        btn.classList.add('active');
+        const targetTab = document.getElementById(tabId);
+        if (targetTab) {
+            targetTab.classList.add('active');
+        }
+    }
+
+    initProductGallery() {
+        const thumbnails = document.querySelectorAll('.product-thumbnail');
+        const mainImage = document.querySelector('.product-main-image');
+        
+        if (thumbnails.length > 0 && mainImage) {
+            thumbnails.forEach(thumb => {
+                thumb.addEventListener('click', () => {
+                    // Remover clase active de todas las miniaturas
+                    thumbnails.forEach(t => t.classList.remove('active'));
+                    // Añadir clase active a la miniatura clickeada
+                    thumb.classList.add('active');
+                    // Aquí normalmente cambiarías la imagen principal
+                    this.showNotification('Imagen cambiada', 'info');
+                });
+            });
+        }
+    }
+
+    initTableSorting() {
+        const sortableHeaders = document.querySelectorAll('.sortable');
+        sortableHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const sortBy = header.getAttribute('data-sort');
+                this.showNotification(`Tabla ordenada por: ${sortBy}`, 'info');
+            });
         });
     }
 
@@ -726,6 +922,105 @@ class FashionHub {
 
         // Progreso del checkout
         this.initCheckoutProgress();
+    }
+
+    selectPaymentMethod(method) {
+        const paymentMethods = document.querySelectorAll('.payment-method');
+        paymentMethods.forEach(m => m.classList.remove('selected'));
+        method.classList.add('selected');
+        
+        const methodType = method.getAttribute('data-method');
+        this.showNotification(`Método de pago seleccionado: ${methodType}`, 'info');
+        
+        // Mostrar formulario correspondiente
+        const cardForm = document.querySelector('.card-form');
+        if (cardForm) {
+            if (methodType === 'credit' || methodType === 'debit') {
+                cardForm.classList.add('active');
+            } else {
+                cardForm.classList.remove('active');
+            }
+        }
+    }
+
+    selectShippingMethod(method) {
+        const shippingMethods = document.querySelectorAll('.shipping-method');
+        shippingMethods.forEach(m => m.classList.remove('selected'));
+        method.classList.add('selected');
+        
+        const methodName = method.querySelector('.shipping-name').textContent;
+        this.showNotification(`Método de envío seleccionado: ${methodName}`, 'info');
+    }
+
+    initCardForm() {
+        // Formatear número de tarjeta
+        const cardNumberInput = document.getElementById('cardNumber');
+        if (cardNumberInput) {
+            cardNumberInput.addEventListener('input', (e) => {
+                let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+                let matches = value.match(/\d{4,16}/g);
+                let match = matches && matches[0] || '';
+                let parts = [];
+                
+                for (let i = 0; i < match.length; i += 4) {
+                    parts.push(match.substring(i, i + 4));
+                }
+                
+                if (parts.length) {
+                    e.target.value = parts.join(' ');
+                } else {
+                    e.target.value = value;
+                }
+            });
+        }
+
+        // Formatear fecha de expiración
+        const expiryInput = document.getElementById('cardExpiry');
+        if (expiryInput) {
+            expiryInput.addEventListener('input', (e) => {
+                let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+                if (value.length >= 2) {
+                    e.target.value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                }
+            });
+        }
+    }
+
+    submitOrder() {
+        const termsCheckbox = document.getElementById('acceptTerms');
+        if (termsCheckbox && !termsCheckbox.checked) {
+            this.showNotification('Debes aceptar los términos y condiciones', 'error');
+            return;
+        }
+        
+        this.showNotification('Procesando pedido...', 'info');
+        setTimeout(() => {
+            this.showNotification('¡Pedido realizado con éxito!', 'success');
+            // Limpiar carrito después de una compra exitosa
+            this.cartItems = [];
+            this.saveCart();
+        }, 2000);
+    }
+
+    applyPromoCode() {
+        const promoInput = document.getElementById('promoCode');
+        if (promoInput) {
+            const code = promoInput.value.trim();
+            if (code) {
+                this.showNotification(`Código aplicado: ${code}`, 'success');
+            } else {
+                this.showNotification('Por favor, ingresa un código de descuento', 'warning');
+            }
+        }
+    }
+
+    updateSubmitButton() {
+        const termsCheckbox = document.getElementById('acceptTerms');
+        const submitBtn = document.getElementById('submitOrder');
+        
+        if (termsCheckbox && submitBtn) {
+            submitBtn.disabled = !termsCheckbox.checked;
+        }
     }
 
     initCheckoutProgress() {
@@ -801,8 +1096,7 @@ class FashionHub {
 
         // Animación de entrada
         setTimeout(() => {
-            notification.style.transform = 'translateX(0)';
-            notification.style.opacity = '1';
+            notification.classList.add('active');
         }, 10);
 
         const closeBtn = notification.querySelector('.close-notification');
@@ -812,8 +1106,7 @@ class FashionHub {
 
         setTimeout(() => {
             if (notification.parentNode) {
-                notification.style.transform = 'translateX(100%)';
-                notification.style.opacity = '0';
+                notification.classList.remove('active');
                 setTimeout(() => {
                     if (notification.parentNode) {
                         notification.remove();
@@ -860,6 +1153,45 @@ class FashionHub {
         });
     }
 
+    handleNewsletterSubmit(form) {
+        const emailInput = form.querySelector('.newsletter-input');
+        const email = emailInput.value.trim();
+        
+        if (this.validateEmail(email)) {
+            this.showNotification('¡Te has suscrito exitosamente!', 'success');
+            emailInput.value = '';
+        } else {
+            this.showNotification('Por favor, ingresa un email válido', 'error');
+        }
+    }
+
+    validateField(field) {
+        const value = field.value.trim();
+        
+        if (field.type === 'email') {
+            if (!this.validateEmail(value)) {
+                field.classList.add('error');
+                this.showNotification('Por favor, ingresa un email válido', 'error');
+                return false;
+            }
+        }
+        
+        if (field.hasAttribute('required') && !value) {
+            field.classList.add('error');
+            this.showNotification('Este campo es obligatorio', 'error');
+            return false;
+        }
+        
+        field.classList.remove('error');
+        field.classList.remove('validating');
+        return true;
+    }
+
+    validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+
     // FUNCIONES DE EXPORTACIÓN E IMPRESIÓN
     initExportFunctions() {
         const exportCSVBtn = document.querySelector('.export-btn .fa-file-export')?.closest('.export-btn');
@@ -878,6 +1210,18 @@ class FashionHub {
         }
     }
 
+    exportToCSV() {
+        this.showNotification('Exportando a CSV...', 'info');
+        // Simular exportación
+        setTimeout(() => {
+            this.showNotification('Archivo CSV descargado', 'success');
+        }, 1500);
+    }
+
+    printPage() {
+        window.print();
+    }
+
     // REDES SOCIALES
     initSocialMedia() {
         const socialIcons = document.querySelectorAll('.social-icons a');
@@ -890,7 +1234,7 @@ class FashionHub {
         });
     }
 
-    // MÉTODOS AUXILIARES (sin cambios)
+    // MÉTODOS AUXILIARES
     updateCartCount() {
         const cartCount = document.querySelector('.cart-count');
         if (cartCount) {
@@ -907,11 +1251,45 @@ class FashionHub {
         return `$${price.toLocaleString()}`;
     }
 
-    generateId() {
-        return 'prod_' + Math.random().toString(36).substr(2, 9);
+    getProductVariant(productCard) {
+        const colorElement = productCard.querySelector('[data-color]');
+        const sizeElement = productCard.querySelector('.variant-option.selected');
+        
+        let variant = '';
+        if (colorElement) {
+            variant += `Color: ${colorElement.getAttribute('data-color')}`;
+        }
+        if (sizeElement) {
+            variant += variant ? `, Talla: ${sizeElement.textContent}` : `Talla: ${sizeElement.textContent}`;
+        }
+        
+        return variant || 'Color: Negro, Talla: M';
     }
 
-    // ... (otros métodos auxiliares sin cambios)
+    buyNow(button) {
+        this.addToCart(button);
+        setTimeout(() => {
+            window.location.href = 'comprar.html';
+        }, 1000);
+    }
+
+    updateCartPrices() {
+        // Actualizar precios en el carrito
+        this.showNotification('Cantidad actualizada', 'info');
+    }
+
+    saveCart() {
+        localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+        this.updateCartCount();
+    }
+
+    saveWishlist() {
+        localStorage.setItem('wishlistItems', JSON.stringify(this.wishlistItems));
+    }
+
+    showRegisterModal() {
+        this.showNotification('Funcionalidad de registro en desarrollo', 'info');
+    }
 }
 
 // Inicializar la aplicación cuando el DOM esté listo
@@ -932,199 +1310,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
-// Estilos CSS adicionales para los nuevos modales
-const additionalStyles = `
-    .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10000;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-    }
-    
-    .modal.active {
-        opacity: 1;
-        visibility: visible;
-    }
-    
-    .modal-content {
-        background: white;
-        border-radius: 16px;
-        padding: 0;
-        max-width: 500px;
-        width: 90%;
-        max-height: 80vh;
-        overflow: hidden;
-        transform: translateY(-50px);
-        transition: transform 0.3s ease;
-    }
-    
-    .modal.active .modal-content {
-        transform: translateY(0);
-    }
-    
-    .modal-header {
-        padding: 20px;
-        border-bottom: 1px solid #eee;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .modal-body {
-        padding: 20px;
-        max-height: 60vh;
-        overflow-y: auto;
-    }
-    
-    .modal-footer {
-        padding: 20px;
-        border-top: 1px solid #eee;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .close-modal {
-        background: none;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        color: #666;
-    }
-    
-    .cart-item {
-        display: flex;
-        align-items: center;
-        padding: 15px 0;
-        border-bottom: 1px solid #eee;
-    }
-    
-    .cart-item-image {
-        width: 60px;
-        height: 60px;
-        background: #f5f5f5;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 15px;
-    }
-    
-    .cart-item-details {
-        flex: 1;
-    }
-    
-    .remove-from-cart {
-        background: none;
-        border: none;
-        font-size: 20px;
-        cursor: pointer;
-        color: #ff4444;
-    }
-    
-    .search-form {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-    
-    .search-suggestions h4 {
-        margin-bottom: 10px;
-        color: #666;
-    }
-    
-    .suggestion-tags {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
-    
-    .suggestion-tag {
-        background: #f0f0f0;
-        padding: 8px 15px;
-        border-radius: 20px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    
-    .suggestion-tag:hover {
-        background: #6a11cb;
-        color: white;
-    }
-    
-    .user-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .user-action-btn {
-        background: none;
-        border: 1px solid #ddd;
-        padding: 15px;
-        border-radius: 8px;
-        cursor: pointer;
-        text-align: left;
-        transition: all 0.3s ease;
-    }
-    
-    .user-action-btn:hover {
-        background: #f5f5f5;
-    }
-    
-    .logout-btn {
-        color: #ff4444;
-        border-color: #ff4444;
-    }
-    
-    .mobile-menu-btn {
-        display: none;
-        background: none;
-        border: none;
-        color: white;
-        font-size: 24px;
-        cursor: pointer;
-    }
-    
-    @media (max-width: 768px) {
-        .mobile-menu-btn {
-            display: block;
-        }
-        
-        .nav-links {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            flex-direction: column;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .nav-links.mobile-open {
-            display: flex;
-        }
-        
-        .nav-links a {
-            color: #333;
-            padding: 10px 0;
-        }
-    }
-`;
-
-// Inyectar estilos adicionales
-const styleSheet = document.createElement('style');
-styleSheet.textContent = additionalStyles;
-document.head.appendChild(styleSheet);
